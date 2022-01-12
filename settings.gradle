@@ -1,2 +1,3 @@
 rootProject.name = 'velog_example'
+include 'swagger-test-server'
 

@@ -1,0 +1,9 @@
+spring:
+  config:
+    import:
+      - classpath:application-springdoc.yml
+
+server:
+  port: 8000
+
+

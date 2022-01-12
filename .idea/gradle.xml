@@ -11,9 +11,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/velog-api-server" />
-            <option value="$PROJECT_DIR$/velog-batch-server" />
-            <option value="$PROJECT_DIR$/velog-core" />
+            <option value="$PROJECT_DIR$/swagger-test-server" />
           </set>
         </option>
       </GradleProjectSettings>

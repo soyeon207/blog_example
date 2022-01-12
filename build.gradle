@@ -1,6 +1,8 @@
 buildscript {
     ext {
         springBootVersion = '2.6.2'
+        swaggerVersion = '3.0.0'
+        openApiVersion = '1.5.9'
     }
     repositories {
         mavenCentral()
@@ -31,6 +33,8 @@ subprojects {
 
     // 하위 모듈에서 공통으로 사용하는 세팅 추가
     dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+
         compileOnly 'org.projectlombok:lombok'
 
         annotationProcessor 'org.projectlombok:lombok'
