@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
-    @Operation(summary = "test hello", description = "hello api example")
+    @Operation(summary = "test hello", description = "hello 샘플 예제입니다. ")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK !!"),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST !!"),
@@ -22,8 +22,11 @@ public class TestController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR !!")
     })
     @GetMapping("/hello")
-    public ResponseEntity<String> hello(@Parameter(description = "이름", required = true, example = "Park") @RequestParam String name) {
-        return ResponseEntity.ok("hello " + name);
+    public ResponseEntity<String> hello(
+            @Parameter(description = "이름", required = true, example = "박소연") @RequestParam String name,
+            @Parameter(description = "나이", example = "21") @RequestParam int age
+    ) {
+        return ResponseEntity.ok("안녕하세요. "+age+"살 "+name+"님");
     }
 
     @GetMapping("/ok")

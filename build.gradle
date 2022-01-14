@@ -1,7 +1,6 @@
 buildscript {
     ext {
         springBootVersion = '2.6.2'
-        swaggerVersion = '3.0.0'
         openApiVersion = '1.5.9'
     }
     repositories {

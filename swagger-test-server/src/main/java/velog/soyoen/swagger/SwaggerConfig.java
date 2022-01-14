@@ -11,17 +11,22 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @OpenAPIDefinition(
-        info = @Info(title = "ERP project API 명세서",
-                description = "API 명세서",
+        info = @Info(title = "API 명세서",
+                description = "API 명세서 테스트 입니다.",
                 version = "v1"))
 @Configuration
 @RequiredArgsConstructor
 public class SwaggerConfig {
 
     @Bean
-    public GroupedOpenApi customProjectOpenAPi() {
+    public GroupedOpenApi customTestOpenAPi() {
         String[] paths = {"/test/**"};
-        return GroupedOpenApi.builder().group("프로젝트 관련 API").pathsToMatch(paths).addOpenApiCustomiser(buildSecurityOpenApi()).build();
+
+        return GroupedOpenApi
+                .builder()
+                .group("테스트 관련 API")
+                .pathsToMatch(paths)
+                .addOpenApiCustomiser(buildSecurityOpenApi()).build();
     }
 
     public OpenApiCustomiser buildSecurityOpenApi() {
