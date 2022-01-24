@@ -1,3 +1,5 @@
 rootProject.name = 'velog_example'
 include 'swagger-test-server'
+include 'jwt-test-server'
+include 'spring-security-server'
 
