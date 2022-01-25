@@ -10,6 +10,9 @@ import velog.soyeon.security.UserRole;
 public class UserCreateRequest {
 
     @NotNull
+    private String email;
+
+    @NotNull
     private String passWord;
 
     @NotNull

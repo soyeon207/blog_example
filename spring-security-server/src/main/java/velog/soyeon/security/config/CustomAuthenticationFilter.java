@@ -1,4 +1,4 @@
-package velog.soyeon.security;
+package velog.soyeon.security.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;

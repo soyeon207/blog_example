@@ -20,14 +20,16 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication; // AuthenticaionFilter에서 생성된 토큰으로부터 아이디와 비밀번호를 조회함
-        String userId = token.getName();
+        String userEmail = token.getName();
         String userPassWord = (String) token.getCredentials(); // UserDetailsService를 통해 DB에서 아이디로 사용자 조회
 
-        UserDetailsVO userDetailsVO = (UserDetailsVO) userDetailsService.loadUserByUsername(userId);
-        if (!passwordEncoder.matches(userPassWord, userDetailsVO.getPassword())) {
-            throw new BadCredentialsException(userDetailsVO.getUsername() + "Invalid password");
+        System.out.printf(">>>> userPassword : "+userPassWord);
+
+        Users users = (Users) userDetailsService.loadUserByUsername(userEmail);
+        if (!passwordEncoder.matches(userPassWord, users.getPassword())) {
+            throw new BadCredentialsException(users.getUsername() + "Invalid password");
         }
-        return new UsernamePasswordAuthenticationToken(userDetailsVO, userPassWord, userDetailsVO.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(users, userPassWord, users.getAuthorities());
     }
 
     @Override
