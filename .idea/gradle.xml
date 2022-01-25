@@ -11,6 +11,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/jwt-test-server" />
+            <option value="$PROJECT_DIR$/spring-security-server" />
             <option value="$PROJECT_DIR$/swagger-test-server" />
           </set>
         </option>

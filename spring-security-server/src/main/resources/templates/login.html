@@ -7,18 +7,28 @@
     <title>로그인</title>
 </head>
 <body>
-<form action="/login" method="post">
-    <div class="form-group">
-        <label for="exampleInputEmail1">이메일</label>
-        <input  type="email" class="form-control" id="exampleInputEmail1" name="username" aria-describedby="emailHelp"
-               placeholder="Enter email">
-    </div>
-    <div class="form-group">
-        <label for="exampleInputPassword1">Password</label>
-        <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="Password">
-    </div>
+<div class="container pt-5">
 
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+    <h3>로그인 하기</h3>
+    <form action="/login" method="post">
+
+        <img src="images/springBootImg.png" class="rounded mx-auto d-block w-25 h-25">
+
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="username">
+            <label for="floatingInput">이메일 주소를 입력해주세요.</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
+            <label for="floatingPassword">비밀번호를 입력해주세요.</label>
+        </div>
+
+        <button type="submit" class="btn mt-4 w-100 text-white" style="background-color: #6CB33E">로그인하기</button>
+
+        <p class="text-center mt-4"><a href="/signup" class="link-secondary">회원가입 하러 가기</a></p>
+    </form>
+
+</div>
+
 </body>
 </html>

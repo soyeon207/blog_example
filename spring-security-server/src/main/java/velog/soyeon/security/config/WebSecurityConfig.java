@@ -35,16 +35,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter { // 정적 
                 .antMatchers("/login", "/signup", "/my").permitAll()
                 .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/my").authenticated()
-                .and()// 나머지 요청에 대해서는 로그인을 요구하지 않음
+                .and()
                 .formLogin()
-                .loginPage("/login") // 로그인 성공 URL을 설정함
-                .defaultSuccessUrl("/my")
-                .successForwardUrl("/success") // 로그인 실패 URL을 설정함
-                .failureForwardUrl("/fail").permitAll()
+                .loginPage("/login")
+                .successHandler(customLoginSuccessHandler())
+                .failureForwardUrl("/fail")
                 .and()
                 .logout()
                 .logoutUrl("/logout")
-.and()
+                .and()
                 .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 

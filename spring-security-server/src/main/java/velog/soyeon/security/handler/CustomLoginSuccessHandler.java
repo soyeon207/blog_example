@@ -17,7 +17,7 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         // / 페이지로 redirect 해준다.
-        response.sendRedirect("/login/success");
+        response.sendRedirect("/my");
     }
 
 }

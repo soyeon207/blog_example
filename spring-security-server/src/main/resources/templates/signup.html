@@ -7,25 +7,33 @@
     <title>로그인</title>
 </head>
 <body>
-<form action="/api/users/signup" method="post">
-    <div class="form-group">
-        <label for="exampleInputEmail1">이메일</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp"
-               placeholder="Enter email">
-    </div>
-    <div class="form-group">
-        <label for="exampleInputPassword1">Password</label>
-        <input type="password" class="form-control" name="passWord" id="exampleInputPassword1" placeholder="Password">
-    </div>
+<div class="container pt-5">
+    <h3>회원가입 하기</h3>
+    <form action="/api/users/signup" method="post">
+        <img src="images/springBootImg.png" class="rounded mx-auto d-block w-25 h-25">
 
-    <div class="form-group">
-        <select class="form-select" aria-label="Default select example" name="userRole">
-            <option value="USER" selected>USER</option>
-            <option value="ADMIN">ADMIN</option>
-        </select>
-    </div>
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email"
+                   required>
+            <label for="floatingInput">이메일 주소를 입력해주세요.</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="passWord"
+                   required>
+            <label for="floatingPassword">비밀번호를 입력해주세요.</label>
+        </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+        <div class="form-floating mb-3 mt-4">
+            <select class="form-select" aria-label="Default select example" name="userRole" required>
+                <option selected>권한을 선택해주세요</option>
+                <option value="USER">회원</option>
+                <option value="ADMIN">관리자</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn mt-4 w-100 text-white" style="background-color: #6CB33E">회원가입 하기</button>
+    </form>
+
+</div>
 </body>
 </html>
