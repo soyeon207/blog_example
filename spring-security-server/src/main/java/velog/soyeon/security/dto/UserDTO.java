@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import velog.soyeon.security.UserRole;
+import velog.soyeon.security.enumeration.UserRole;
 
 @Getter
 @Setter

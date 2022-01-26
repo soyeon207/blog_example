@@ -1,4 +1,4 @@
-package velog.soyeon.security;
+package velog.soyeon.security.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import velog.soyeon.security.enumeration.UserRole;
 
 import javax.persistence.*;
 import java.util.Collection;

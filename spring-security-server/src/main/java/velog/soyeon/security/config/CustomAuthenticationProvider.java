@@ -1,4 +1,4 @@
-package velog.soyeon.security;
+package velog.soyeon.security.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import velog.soyeon.security.entity.Users;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -24,8 +25,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String userPassWord = (String) token.getCredentials(); // UserDetailsService를 통해 DB에서 아이디로 사용자 조회
 
         Users users = (Users) userDetailsService.loadUserByUsername(userEmail);
-        if (!passwordEncoder.matches(userPassWord, users.getPassword())) {
-            throw new BadCredentialsException(users.getUsername() + "Invalid password");
+        if (passwordEncoder.matches(userPassWord, users.getPassword()) == false) {
+            throw new BadCredentialsException(users.getUsername() + " 비밀번호를 확인해주세요.");
         }
         return new UsernamePasswordAuthenticationToken(users, userPassWord, users.getAuthorities());
     }

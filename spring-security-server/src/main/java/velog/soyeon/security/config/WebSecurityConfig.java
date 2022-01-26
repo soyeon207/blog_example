@@ -12,9 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import velog.soyeon.security.CustomAuthenticationProvider;
 import velog.soyeon.security.handler.CustomLoginSuccessHandler;
-import velog.soyeon.security.service.impl.UserServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -32,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter { // 정적 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
-                .antMatchers("/login", "/signup", "/my").permitAll()
+                .antMatchers("/login", "/signup").permitAll()
                 .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/my").authenticated()
                 .and()

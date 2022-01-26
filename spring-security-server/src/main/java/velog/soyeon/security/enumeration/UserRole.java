@@ -1,4 +1,4 @@
-package velog.soyeon.security;
+package velog.soyeon.security.enumeration;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
