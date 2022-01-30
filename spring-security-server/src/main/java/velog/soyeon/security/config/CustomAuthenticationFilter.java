@@ -10,6 +10,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * UsernamePasswordAuthenticationFilter
+ * 유저가 요청할 때 보내는 요청에서 아이디, 패스워드를 가져온 후 인증을 위한 토큰을 생성한 다음 인증을 다른쪽에 위임하는 필터
+ */
 @Slf4j
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -19,7 +23,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        // 유저가 보낸 request 에서 아이디 (userId) , 비밀번호 (userPassword) 를 꺼내서 토큰 발급
+        // 유저가 보낸 요청에서 아이디, 비밀번호를 꺼낸 후 Authentication 발급
         UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(request.getParameter("userId"), request.getParameter("userPassword"));
         setDetails(request, authRequest);
         return this.getAuthenticationManager().authenticate(authRequest);
