@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import velog.soyeon.security.handler.CustomLoginSuccessHandler;
 
 @Configuration
@@ -42,24 +41,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter { // 정적 
                 .failureForwardUrl("/fail")                                 // 로그인 실패 URL 설정
                 .and()
                 .logout()
-                .logoutUrl("/logout")                                       // 로그아웃 URL 설정
-                .and()
-                // UsernamePasswordAuthenticationFilter 전 실행할 filter 설정
-                .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .logoutUrl("/logout");                                       // 로그아웃 URL 설정
     }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public CustomAuthenticationFilter customAuthenticationFilter() throws Exception {
-        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManager());
-        customAuthenticationFilter.setFilterProcessesUrl("/success");
-        customAuthenticationFilter.setAuthenticationSuccessHandler(customLoginSuccessHandler());
-        customAuthenticationFilter.afterPropertiesSet();
-        return customAuthenticationFilter;
     }
 
     @Bean
@@ -76,5 +63,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter { // 정적 
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) {
         authenticationManagerBuilder.authenticationProvider(customAuthenticationProvider());
     }
-
 }

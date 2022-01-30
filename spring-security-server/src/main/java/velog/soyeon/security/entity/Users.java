@@ -3,7 +3,7 @@ package velog.soyeon.security.entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Entity
@@ -25,7 +25,7 @@ public class Users implements UserDetails {
     @Column
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true) // email 은 중복되지 않아야 하기 때문에 uniquer 하도록 설정
     private String email;
 
     @Column
@@ -44,6 +44,7 @@ public class Users implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        // 계정의 권한 목록을 리턴
         Set<GrantedAuthority> roles = new HashSet<>();
         roles.add(new SimpleGrantedAuthority(userRole.getValue()));
         return roles;
@@ -51,31 +52,31 @@ public class Users implements UserDetails {
 
     @Override
     public String getPassword() {
-        return this.password;
+        return this.password; // 계정의 비밀번호 리턴
     }
 
     @Override
     public String getUsername() {
-        return this.email;
+        return this.email; // 계정의 고유한 값 리턴
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return true; // 계정의 만료 여부 리턴
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return true; // 계정의 잠김 여부 리턴
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return true;  // 비밀번호 만료 여부 리턴
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return true; // 계정의 활성화 여부 리턴
     }
 }
