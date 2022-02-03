@@ -1,7 +1,6 @@
 package velog.soyeon.security.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -24,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter { // 정적 
     public void configure(WebSecurity web) {
         web
                 .ignoring() // spring security 필터 타지 않도록 무시
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()) // 정적 자원 무시
+                .antMatchers("/resources/**")
                 .antMatchers("/h2-console/**"); // h2-console 무시
     }
 
