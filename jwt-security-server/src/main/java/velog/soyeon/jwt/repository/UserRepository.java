@@ -7,4 +7,6 @@ import velog.soyeon.jwt.entity.Users;
 @Repository
 public interface UserRepository extends JpaRepository<Users, Long> {
     Users findByEmail(String email);
+
+    Users findByEmailAndPassword(String email, String password);
 }

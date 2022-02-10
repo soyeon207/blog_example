@@ -4,10 +4,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,15 +18,17 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
-@Configuration
+@Component
 @RequiredArgsConstructor
 public class JwtConfig {
 
-    private String secretKey = "soyeonJwtKey";
+    @Value("${JWT_TOKEN}")
+    private String secretKey;
+
+    @Value("${JWT_EXPIRE_TIME}")
+    private long expireTime;
 
     private final UserDetailsService userDetailsService;
-
-    private long tokenExpireTime = 60 * 30; // 토큰 유효 시간 (30분)
 
     @PostConstruct
     protected void init() {
@@ -42,7 +42,7 @@ public class JwtConfig {
         return Jwts.builder()
                 .setClaims(claims) // 정보 저장
                 .setIssuedAt(now) // 토큰 발행 시간 정보
-                .setExpiration(new Date(now.getTime() + tokenExpireTime)) // set Expire Time
+                .setExpiration(new Date(now.getTime() + expireTime)) // set Expire Time
                 .signWith(SignatureAlgorithm.HS256, secretKey)  // 사용할 암호화 알고리즘과
                 // signature 에 들어갈 secret값 세팅
                 .compact();

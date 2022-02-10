@@ -1,10 +1,6 @@
 server:
   port: 8001
 
-logging:
-  level:
-    root: trace
-
 spring:
   h2:
     console:
