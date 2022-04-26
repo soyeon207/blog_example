@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import velog.soyeon.security.PackageDto;
 import velog.soyeon.security.dto.UserCreateRequest;
 import velog.soyeon.security.service.impl.UserServiceImpl;
 
@@ -20,6 +21,15 @@ import java.io.IOException;
 public class UsersController {
 
     private final UserServiceImpl usersService;
+
+    @GetMapping
+    public PackageDto getPackageDto() {
+
+        PackageDto packageDto = new PackageDto();
+        packageDto.setNew(false);
+
+        return packageDto;
+    }
 
     @PostMapping("/signup")
     public void createUser(UserCreateRequest userCreateRequest, HttpServletResponse response) throws IOException {
