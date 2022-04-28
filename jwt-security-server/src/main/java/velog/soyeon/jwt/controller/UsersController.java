@@ -13,8 +13,10 @@ import velog.soyeon.jwt.dto.UserDTO;
 import velog.soyeon.jwt.dto.UserRequest;
 import velog.soyeon.jwt.service.impl.UserServiceImpl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/users")
@@ -47,6 +49,17 @@ public class UsersController {
     public String login(UserRequest userRequest) {
         UserDTO users = usersService.findByEmailAndPassword(userRequest.getEmail(), userRequest.getPassWord());
         return jwtConfig.createToken(users.getEmail(), Arrays.asList(users.getUserRole().getValue()));
+    }
+
+    @GetMapping
+    public List<String> test() {
+        List<String> userEmailList = new ArrayList<>();
+
+        List<UserDTO> userDTOList = usersService.findAll();
+        for (UserDTO userDTO : userDTOList) {
+            userEmailList.add(userDTO.getEmail());
+        }
+        return userEmailList;
     }
 
 }
