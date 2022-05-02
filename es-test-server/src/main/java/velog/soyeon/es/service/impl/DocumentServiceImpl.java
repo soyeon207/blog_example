@@ -36,28 +36,35 @@ import java.util.stream.Collectors;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class DocumentServiceImpl implements DocumentService {
 
     private final RestHighLevelClient client;
     private final EsProperties esProperties;
+
     private static final String NAME = "name";
+    private static final String AGE = "age";
+    private static final String SCORE = "score";
+    private static final String CLASS = "class";
+    private static final String CREATED_AT = "createdAt";
 
     @Override
     public List<String> getSearch() throws IOException {
         SearchRequest searchRequest = new SearchRequest(esProperties.getStudentIndexName());
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
+        // 이름이 학생1, 학생22 인 도큐먼트를 찾는다.
         BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
-        boolQueryBuilder.should(QueryBuilders.matchQuery(NAME, "학생1")).should(QueryBuilders.matchQuery(NAME, "학생22"));
+        boolQueryBuilder
+                .should(QueryBuilders.matchQuery(NAME, "학생1"))
+                .should(QueryBuilders.matchQuery(NAME, "학생22"));
 
         searchSourceBuilder.query(boolQueryBuilder);
         searchRequest.source(searchSourceBuilder);
 
         SearchHits searchHits = client.search(searchRequest, RequestOptions.DEFAULT).getHits();
-
         return Optional.ofNullable(searchHits)
                 .map(SearchHits::getHits)
                 .map(v -> Arrays.stream(v)
@@ -66,6 +73,7 @@ public class DocumentServiceImpl implements DocumentService {
                         .collect(Collectors.toList())
                 ).orElse(Collections.emptyList());
 
+        // queryDSL 로 표현했을 때
         // GET /students/_search
         //{
         //  "query": {
@@ -90,7 +98,13 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public IndexResponse createDocument() throws IOException {
         IndexRequest request = new IndexRequest(esProperties.getStudentIndexName());
-        request.source(jsonBuilder().startObject().field(NAME, "소연").field("age", 21).field("score", 100).field("class", "B"));
+        request.source(jsonBuilder()
+                .startObject()
+                .field(NAME, "소연")
+                .field(AGE, 21)
+                .field(SCORE, 100)
+                .field(CLASS, "B")
+                .endObject());
         try {
             return client.index(request, RequestOptions.DEFAULT);
         } catch (ElasticsearchException e) {
@@ -106,6 +120,7 @@ public class DocumentServiceImpl implements DocumentService {
         GetRequest request = new GetRequest(esProperties.getStudentIndexName(), id);
         GetResponse getResponse = client.get(request, RequestOptions.DEFAULT);
         if (getResponse.isExists()) {
+            // 도큐먼트가 있는 경우
             return getResponse.getSourceAsMap();
         }
         return null;
@@ -121,18 +136,19 @@ public class DocumentServiceImpl implements DocumentService {
     public UpdateResponse updateDocumentByScript(String id) throws IOException {
         UpdateRequest updateRequest = new UpdateRequest(esProperties.getStudentIndexName(), id);
 
+        // name 을 이름 수정으로 변경
         Map<String, Object> parameterMap = Collections.singletonMap(NAME, "이름수정");
         Script inline = new Script(ScriptType.INLINE, "painless", "ctx._source.name = params.name", parameterMap);
         // 이미 스크립트가 등록되어 있는 경우에는 ScriptType 을 Stored 로
         updateRequest.script(inline);
         // updateRequest.scriptedUpsert(true/false);
-//        updateRequest.upsert(inline);
+        // updateRequest.upsert(inline);
 
         try {
             return client.update(updateRequest, RequestOptions.DEFAULT);
         } catch (ElasticsearchException e) {
-            if(e.status() == RestStatus.NOT_FOUND) {
-                System.out.printf("업데이트 대상이 존재하지 않습니다. ");
+            if (e.status() == RestStatus.NOT_FOUND) {
+                System.out.println("업데이트 대상이 존재하지 않습니다. ");
             }
         }
         return null;
@@ -140,9 +156,12 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public UpdateResponse updateDocument(String id) throws IOException {
-        XContentBuilder builder = jsonBuilder();
-        builder.startObject();
-        builder.field(NAME, "이름수정");
+        // name 을 이름수정으로 변경
+        XContentBuilder builder = jsonBuilder()
+                .startObject()
+                .field(NAME, "이름수정")
+                .endObject();
+
         UpdateRequest updateRequest = new UpdateRequest(esProperties.getStudentIndexName(), id).doc(builder);
         return client.update(updateRequest, RequestOptions.DEFAULT);
     }
@@ -151,10 +170,10 @@ public class DocumentServiceImpl implements DocumentService {
     public UpdateResponse upsertDocument(String id) throws IOException {
         IndexRequest indexRequest = new IndexRequest(esProperties.getStudentIndexName()).source(jsonBuilder().startObject().field(NAME, "소소").endObject());
 
-        XContentBuilder xContentBuilder = jsonBuilder();
-        xContentBuilder.startObject();
-        xContentBuilder.field("createdAt", new Date());
-        xContentBuilder.endObject();
+        XContentBuilder xContentBuilder = jsonBuilder()
+                .startObject()
+                .field(CREATED_AT, new Date())
+                .endObject();
 
         UpdateRequest updateRequest = new UpdateRequest(esProperties.getStudentIndexName(), id).doc(xContentBuilder).upsert(indexRequest);
         return client.update(updateRequest, RequestOptions.DEFAULT);
@@ -168,4 +187,5 @@ public class DocumentServiceImpl implements DocumentService {
         request.add(new IndexRequest(esProperties.getStudentIndexName()).source(XContentType.JSON, NAME, "테스트3"));
         return client.bulk(request, RequestOptions.DEFAULT);
     }
+
 }
