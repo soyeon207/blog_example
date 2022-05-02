@@ -15,7 +15,6 @@ public class EsProperties {
 
     private String host;
     private int port;
-
     private Indices indecies;
 
     public HttpHost httpHost() {
@@ -36,6 +35,5 @@ public class EsProperties {
         String studentsIndexName;
         String testIndexName;
     }
-
 
 }

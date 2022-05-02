@@ -1,7 +1,6 @@
 package velog.soyeon.es.config;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.context.annotation.Configuration;
@@ -19,4 +18,5 @@ public class EsConfig extends AbstractElasticsearchConfiguration {
         RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(esProperties.httpHost()));
         return client;
     }
+
 }

@@ -1,17 +1,15 @@
 package velog.soyeon.es.service;
 
-import java.io.IOException;
-
 public interface IndexService {
 
-    boolean createIndexSync() throws IOException;
+    boolean createIndexSync();
 
     void createIndexAsync();
 
-    boolean deleteIndex() throws IOException;
+    boolean deleteIndex();
 
-    boolean openIndex() throws IOException;
+    boolean openIndex();
 
-    boolean closeIndex() throws IOException;
+    boolean closeIndex();
 
 }

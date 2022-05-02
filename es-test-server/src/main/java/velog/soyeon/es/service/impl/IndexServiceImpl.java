@@ -15,8 +15,6 @@ import org.springframework.stereotype.Service;
 import velog.soyeon.es.config.EsProperties;
 import velog.soyeon.es.service.IndexService;
 
-import java.io.IOException;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -26,14 +24,20 @@ public class IndexServiceImpl implements IndexService {
     private final RestHighLevelClient client;
 
     @Override
-    public boolean createIndexSync() throws IOException {
+    public boolean createIndexSync() {
         CreateIndexRequest request = new CreateIndexRequest(esProperties.getTestIndexName());
         request.settings(Settings.builder()
                 .put("index.number_of_shards", 1)
                 .put("index.number_of_replicas", 0));
 
-        CreateIndexResponse createIndexResponse = client.indices().create(request, RequestOptions.DEFAULT);
-        return createIndexResponse.isAcknowledged();
+        try {
+            CreateIndexResponse createIndexResponse = client.indices().create(request, RequestOptions.DEFAULT);
+            return createIndexResponse.isAcknowledged();
+        } catch (Exception e) {
+            log.error("인덱스 생성에 실패했습니다. 원인 : " + e.getMessage());
+            return false;
+        }
+
     }
 
     @Override
@@ -51,29 +55,45 @@ public class IndexServiceImpl implements IndexService {
 
             @Override
             public void onFailure(Exception e) {
-                log.error(e.getMessage());
+                log.error("인덱스 생성에 실패했습니다. 원인 : " + e.getMessage());
             }
         };
 
-        client.indices().createAsync(request,RequestOptions.DEFAULT, listener);
+        client.indices().createAsync(request, RequestOptions.DEFAULT, listener);
     }
 
     @Override
-    public boolean deleteIndex() throws IOException {
-        DeleteIndexRequest request = new DeleteIndexRequest(esProperties.getTestIndexName());
-        return client.indices().delete(request, RequestOptions.DEFAULT).isAcknowledged();
+    public boolean deleteIndex() {
+        try {
+            DeleteIndexRequest request = new DeleteIndexRequest(esProperties.getTestIndexName());
+            return client.indices().delete(request, RequestOptions.DEFAULT).isAcknowledged();
+        } catch (Exception e) {
+            log.error("인덱스 삭제에 실패했습니다. 원인 : " + e.getMessage());
+            return false;
+        }
     }
 
     @Override
-    public boolean openIndex() throws IOException {
-        OpenIndexRequest request = new OpenIndexRequest(esProperties.getTestIndexName());
-        return client.indices().open(request, RequestOptions.DEFAULT).isAcknowledged();
+    public boolean openIndex() {
+        try {
+            OpenIndexRequest request = new OpenIndexRequest(esProperties.getTestIndexName());
+            return client.indices().open(request, RequestOptions.DEFAULT).isAcknowledged();
+        } catch (Exception e) {
+            log.error("인덱스 오픈을 실패했습니다. 원인 : " + e.getMessage());
+            return false;
+        }
     }
 
     @Override
-    public boolean closeIndex() throws IOException {
-        CloseIndexRequest request = new CloseIndexRequest(esProperties.getTestIndexName());
-        return client.indices().close(request, RequestOptions.DEFAULT).isAcknowledged();
+    public boolean closeIndex() {
+        try {
+            CloseIndexRequest request = new CloseIndexRequest(esProperties.getTestIndexName());
+            return client.indices().close(request, RequestOptions.DEFAULT).isAcknowledged();
+        } catch (Exception e) {
+            log.error("인덱스 닫기를 실패했습니다. 원인 : " + e.getMessage());
+            return false;
+        }
     }
 
 }
+
