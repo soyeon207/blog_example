@@ -8,9 +8,17 @@ import org.springframework.context.annotation.Configuration;
 public class FilterConfig {
 
     @Bean
-    public FilterRegistrationBean customFilterBean() {
-        FilterRegistrationBean registrationBean = new FilterRegistrationBean(new CustomFilter());
-        return registrationBean;
+    public FilterRegistrationBean firstCustomFilterBean() {
+        FilterRegistrationBean firstRegistrationBean = new FilterRegistrationBean(new FirstCustomFilter());
+        firstRegistrationBean.setOrder(1);
+        return firstRegistrationBean;
+    }
+
+    @Bean
+    public FilterRegistrationBean secondCustomFilterBean() {
+        FilterRegistrationBean secondRegistrationBean = new FilterRegistrationBean(new SecondCustomFilter());
+        secondRegistrationBean.setOrder(2);
+        return secondRegistrationBean;
     }
 
 }
