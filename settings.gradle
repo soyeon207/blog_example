@@ -5,4 +5,5 @@ include 'spring-security-server'
 include 'es-test-server'
 include 'clustering-test-server'
 include 'spring-test-server'
+include 'sns-sqs-server'
 
