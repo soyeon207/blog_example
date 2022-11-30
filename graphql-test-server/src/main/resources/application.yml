@@ -1,0 +1,15 @@
+server:
+  port: 8004
+
+graphql:
+  tools:
+    # 기본 값 = **/*.graphqls
+    # 스키마 파일명 패턴 지정
+    schema-location-pattern: "**/*.graphql"
+  graphiql:
+    enabled: true # /graphiql URL 로 접속 가능
+  servlet:
+    mapping: /graphql
+  # scalar 타입 확장 (Long, DateTime)
+  # scalar 타입을 확장할 거라면 application.yml 과 scalar 명시 둘 다 해줘야 한다.
+  extended-scalars: Long, DateTime, Date

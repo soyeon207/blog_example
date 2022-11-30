@@ -1,0 +1,7 @@
+type Query {
+    test: String
+    longTest: Long
+    dateTimeTest: DateTime
+    dateTest: Date
+    emailTest(email : String): EMAIL
+}

@@ -1,0 +1,4 @@
+type Mutation {
+    test: String
+    emailTest(email: EMAIL) : String
+}

@@ -1,0 +1,4 @@
+scalar DateTime
+scalar Date
+scalar Long
+scalar EMAIL
